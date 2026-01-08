@@ -1,0 +1,27 @@
+<!-- Titre principal dans la page avec une image -->
+<header>  
+<h1><img id="worldmap" src="{{ url_for('static', filename='images/favicon.png') }}"/><b>Analyse démographique mondiale</b> &nbsp;|&nbsp; {{ title }}</h1>
+
+    <!-- Menu principal pour sélectionner le type de requête -->
+    <div class="menu">
+        <a href="/?query=world&view=table" {% if query_type == 'world' %} class="active"{% endif %}>Population mondiale</a>
+        <a href="/?query=region&view=table" {% if query_type == 'region' %} class="active"{% endif %}>Population par région</a>
+        <a href="/?query=top10&view=table" {% if query_type == 'top10' %} class="active"{% endif %}>Top 10 des pays par année</a>
+        <a href="/?query=europe&view=table" {% if query_type == 'europe' %} class="active"{% endif %}>Démographie européenne</a>
+        <a href="/dashboard" {% if request.path == '/dashboard' %}class="active"{% endif %}>Indicateurs clés</a>
+        <a id="about" href="/?query=about&view=text" {% if query_type == 'about' %}class="active"{% endif %}>à propos...</a>
+    </div>
+
+    <!-- Sous-menu pour basculer entre tableau et graphe ou map -->
+    <!-- Sous-menu affiché uniquement pour les types de requête qui supportent les vues tableau, graphe ou map -->
+    {% if query_type in ['world', 'region', 'top10', 'europe'] %}
+        <div class="submenu">
+            <a href="/?query={{ query_type }}&view=table" {% if view_type == 'table' %}class="active"{% endif %}>Tableau</a>
+            {% if query_type != 'europe' %}
+                <a href="/?query={{ query_type }}&view=graph" {% if view_type == 'graph' %}class="active"{% endif %}>Graphe</a>
+            {% else %}
+                <a href="/?query={{ query_type }}&view=dens_map" {% if view_type == 'dens_map' %}class="active"{% endif %}>Carte densité 2023</a>    
+            {% endif %}
+        </div>
+    {% endif %}
+</header>
